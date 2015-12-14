@@ -1,16 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: brunosalzano
- * Date: 13/12/15
- * Time: 23:04
- */
-
 namespace d4rkstar\graphitejs;
 
-
 use yii\base\Widget;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
@@ -33,11 +24,20 @@ class Graphitejs extends Widget {
      */
     public $pluginOptions = [];
 
+    /**
+     * @var string url for the graphite render service
+     */
     public $defaultUrl = null;
 
-    public $width = "450";
+    /**
+     * @var int graph width
+     */
+    public $width = null;
 
-    public $height = "300";
+    /**
+     * @var int graph height
+     */
+    public $height = null;
 
     /**
      * @inheritdoc
@@ -57,11 +57,20 @@ class Graphitejs extends Widget {
         $this->initOptions();
 
         $options = Json::encode($this->pluginOptions);
+        $defaults = [];
         if ($this->defaultUrl!=null) {
-            $defaultUrl = "$.fn.graphite.defaults.url=\"{$this->defaultUrl}\";\n";
+            $defaults[] = "$.fn.graphite.defaults.url=\"{$this->defaultUrl}\";\n";
         }
 
-        $js = new JsExpression($defaultUrl.'jQuery("#'.$this->options['id'].'").graphite('.$options.');');
+        if ($this->width!=null) {
+            $defaults[] = "$.fn.graphite.defaults.url=\"{$this->width}\";\n";
+        }
+
+        if ($this->height!=null) {
+            $defaults[] = "$.fn.graphite.defaults.width=\"{$this->height}\";\n";
+        }
+        $defaults = implode("\n",$defaults)."\n";
+        $js = new JsExpression($defaults.'jQuery("#'.$this->options['id'].'").graphite('.$options.');');
 
 
         $view = $this->getView();

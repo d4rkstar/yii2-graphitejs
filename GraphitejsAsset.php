@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: brunosalzano
- * Date: 13/12/15
- * Time: 23:09
- */
 namespace d4rkstar\graphitejs;
 
 use yii\web\AssetBundle;
@@ -14,7 +8,6 @@ class GraphitejsAsset extends AssetBundle {
     public $depends = [
         'yii\web\JqueryAsset',
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
     ];
 
 
@@ -37,7 +30,6 @@ class GraphitejsAsset extends AssetBundle {
      * @param array $files the list of 'css' or 'js' basefile names
      */
     protected function setupAssets($type, $files = []) {
-
         $srcFiles = [];
         $minFiles = [];
         foreach ($files as $file) {
